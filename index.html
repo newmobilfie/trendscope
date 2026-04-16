@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ViralLens — TikTok Video Structure Analyzer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #1e1e2e;
+    --accent: #ff2d55;
+    --accent2: #00f5d4;
+    --text: #e4e4e7;
+    --muted: #71717a;
+    --gradient: linear-gradient(135deg, #ff2d55, #ff6b6b, #00f5d4);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,45,85,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(0,245,212,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Email Form */
+  .waitlist-form {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 440px;
+    margin-bottom: 1rem;
+  }
+
+  .waitlist-form input {
+    flex: 1;
+    padding: 0.85rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .waitlist-form input:focus {
+    border-color: var(--accent);
+  }
+
+  .waitlist-form button {
+    padding: 0.85rem 1.5rem;
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .waitlist-form button:hover { opacity: 0.88; }
+  .waitlist-form button:active { transform: scale(0.97); }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .form-message {
+    font-size: 0.9rem;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+    display: none;
+  }
+
+  /* Social proof */
+  .proof {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .proof-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .proof-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .proof-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Divider */
+  .section-divider {
+    width: 100%;
+    max-width: 600px;
+    height: 1px;
+    background: var(--border);
+    margin: 4rem auto;
+  }
+
+  /* Features */
+  .features {
+    padding: 0 2rem 6rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: border-color 0.2s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--accent);
+  }
+
+  .feature-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text);
+  }
+
+  .feature-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* How it works */
+  .how {
+    padding: 4rem 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .how h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: left;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 2.2rem;
+    height: 2.2rem;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .step-content h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .step-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* CTA footer */
+  .cta-footer {
+    text-align: center;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .cta-footer h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .cta-footer p {
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="badge">Early Access</div>
+  <h1>ViralLens</h1>
+  <p class="subtitle">
+    Paste a TikTok link. Get a complete breakdown of what makes it viral —
+    hook structure, scene rhythm, speech content, and a viral score in under 2 minutes.
+  </p>
+
+  <form class="waitlist-form" id="waitlistForm">
+    <input type="email" id="emailInput" placeholder="your@email.com" required>
+    <button type="submit">Join Waitlist</button>
+  </form>
+  <p class="form-note">Free during beta. No credit card needed.</p>
+  <div class="form-message" id="formMessage">You're in! We'll reach out when we launch.</div>
+
+  <div class="proof">
+    <div class="proof-item">
+      <span class="proof-number">5</span>
+      <span class="proof-label">Analysis Dimensions</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">&lt;2min</span>
+      <span class="proof-label">Analysis Time</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">100%</span>
+      <span class="proof-label">Free During Beta</span>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎣</div>
+      <div class="feature-title">Hook Extraction</div>
+      <div class="feature-desc">Detect the opening hook — text overlay, speech hook, visual pattern. Know exactly why viewers stay or scroll away.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎬</div>
+      <div class="feature-title">Scene Rhythm Analysis</div>
+      <div class="feature-desc">Count scene changes, measure pacing density. Viral videos don't waste a single second.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎙️</div>
+      <div class="feature-title">Speech-to-Text</div>
+      <div class="feature-desc">Transcribe the entire audio track. Find the exact words that drove engagement.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <div class="feature-title">Overlay Text OCR</div>
+      <div class="feature-desc">Extract every text element burned into the video. Captions, callouts, key phrases.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Viral Score</div>
+      <div class="feature-desc">Get a composite score (0–100) based on hook strength, pacing, speech density, and text overlay quality.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Batch Processing</div>
+      <div class="feature-desc">Analyze multiple videos at once. Build your own viral template library from top performers.</div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <div class="step-content">
+        <h4>Paste a TikTok URL</h4>
+        <p>Any public TikTok video. No account required.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <div class="step-content">
+        <h4>AI Analyzes in Seconds</h4>
+        <p>We extract frames, transcribe audio, run OCR, and detect scene changes — fully automated.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <div class="step-content">
+        <h4>Get Your Report</h4>
+        <p>Receive a structured breakdown: hook type, viral score, key phrases, and actionable insights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="cta-footer">
+  <h2>Ready to crack the code?</h2>
+  <p>Join creators who analyze viral videos with precision, not guesswork.</p>
+  <form class="waitlist-form" id="waitlistForm2">
+    <input type="email" placeholder="your@email.com" required>
+    <button type="submit">Join Waitlist</button>
+  </form>
+  <div class="form-message" id="formMessage2">You're in! We'll reach out when we launch.</div>
+</section>
+
+<footer>
+  ViralLens — Built by creators, for creators. Coming soon.
+</footer>
+
+<script>
+  function handleSubmit(e, msgEl) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    if (!email) return;
+
+    // Store in localStorage for now
+    const list = JSON.parse(localStorage.getItem('virallens_waitlist') || '[]');
+    if (!list.includes(email)) {
+      list.push(email);
+      localStorage.setItem('virallens_waitlist', JSON.stringify(list));
+    }
+
+    e.target.style.display = 'none';
+    msgEl.style.display = 'block';
+    msgEl.nextElementSibling.style.display = 'none';
+  }
+
+  document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+    handleSubmit(e, document.getElementById('formMessage'));
+  });
+  document.getElementById('waitlistForm2').addEventListener('submit', function(e) {
+    handleSubmit(e, document.getElementById('formMessage2'));
+  });
+</script>
+
+</body>
+</html>
