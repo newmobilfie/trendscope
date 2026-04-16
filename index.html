@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Viralscope — TikTok Viral Structure Analyzer</title>
+<title>TrendScope — TikTok Viral Structure Analyzer</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -252,7 +252,7 @@
 
 <section class="hero">
   <div class="badge">Early Access</div>
-  <h1>Viralscope</h1>
+  <h1>TrendScope</h1>
   <p class="subtitle">
     Paste a TikTok link. Get a complete breakdown of what makes it go viral —
     hook structure, scene rhythm, speech, text overlays, and a viral score in under 2 minutes.
@@ -356,7 +356,7 @@
 </section>
 
 <footer>
-  Viralscope — Built by creators, for creators. Coming soon.
+  TrendScope — Built by creators, for creators. Coming soon.
 </footer>
 
 <script>
@@ -364,10 +364,10 @@
     e.preventDefault();
     const email = e.target.querySelector('input').value;
     if (!email) return;
-    const list = JSON.parse(localStorage.getItem('viralscope_waitlist') || '[]');
+    const list = JSON.parse(localStorage.getItem('trendscope_waitlist') || '[]');
     if (!list.includes(email)) {
       list.push(email);
-      localStorage.setItem('viralscope_waitlist', JSON.stringify(list));
+      localStorage.setItem('trendscope_waitlist', JSON.stringify(list));
     }
     e.target.style.display = 'none';
     msgEl.style.display = 'block';
