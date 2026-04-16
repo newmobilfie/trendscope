@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ViralLens — TikTok Video Structure Analyzer</title>
+<title>Viralscope — TikTok Viral Structure Analyzer</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -26,7 +26,6 @@
     overflow-x: hidden;
   }
 
-  /* Hero */
   .hero {
     min-height: 100vh;
     display: flex;
@@ -78,7 +77,6 @@
     margin-bottom: 2.5rem;
   }
 
-  /* Email Form */
   .waitlist-form {
     display: flex;
     gap: 0.5rem;
@@ -99,9 +97,7 @@
     transition: border-color 0.2s;
   }
 
-  .waitlist-form input:focus {
-    border-color: var(--accent);
-  }
+  .waitlist-form input:focus { border-color: var(--accent); }
 
   .waitlist-form button {
     padding: 0.85rem 1.5rem;
@@ -119,10 +115,7 @@
   .waitlist-form button:hover { opacity: 0.88; }
   .waitlist-form button:active { transform: scale(0.97); }
 
-  .form-note {
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
+  .form-note { font-size: 0.78rem; color: var(--muted); }
 
   .form-message {
     font-size: 0.9rem;
@@ -131,7 +124,6 @@
     display: none;
   }
 
-  /* Social proof */
   .proof {
     margin-top: 3rem;
     display: flex;
@@ -159,7 +151,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* Divider */
   .section-divider {
     width: 100%;
     max-width: 600px;
@@ -168,7 +159,6 @@
     margin: 4rem auto;
   }
 
-  /* Features */
   .features {
     padding: 0 2rem 6rem;
     max-width: 900px;
@@ -190,14 +180,9 @@
     transition: border-color 0.2s;
   }
 
-  .feature-card:hover {
-    border-color: var(--accent);
-  }
+  .feature-card:hover { border-color: var(--accent); }
 
-  .feature-icon {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-  }
+  .feature-icon { font-size: 1.8rem; margin-bottom: 1rem; }
 
   .feature-title {
     font-size: 1.05rem;
@@ -212,7 +197,6 @@
     line-height: 1.6;
   }
 
-  /* How it works */
   .how {
     padding: 4rem 2rem;
     max-width: 700px;
@@ -220,11 +204,7 @@
     text-align: center;
   }
 
-  .how h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 3rem;
-  }
+  .how h2 { font-size: 2rem; font-weight: 800; margin-bottom: 3rem; }
 
   .steps {
     display: flex;
@@ -233,11 +213,7 @@
     text-align: left;
   }
 
-  .step {
-    display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
-  }
+  .step { display: flex; gap: 1.2rem; align-items: flex-start; }
 
   .step-num {
     width: 2.2rem;
@@ -252,33 +228,16 @@
     flex-shrink: 0;
   }
 
-  .step-content h4 {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-  }
+  .step-content h4 { font-size: 1rem; margin-bottom: 0.3rem; }
+  .step-content p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
-  .step-content p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  /* CTA footer */
   .cta-footer {
     text-align: center;
     padding: 4rem 2rem 6rem;
   }
 
-  .cta-footer h2 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-  }
-
-  .cta-footer p {
-    color: var(--muted);
-    margin-bottom: 2rem;
-  }
+  .cta-footer h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
+  .cta-footer p { color: var(--muted); margin-bottom: 2rem; }
 
   footer {
     text-align: center;
@@ -293,10 +252,10 @@
 
 <section class="hero">
   <div class="badge">Early Access</div>
-  <h1>ViralLens</h1>
+  <h1>Viralscope</h1>
   <p class="subtitle">
-    Paste a TikTok link. Get a complete breakdown of what makes it viral —
-    hook structure, scene rhythm, speech content, and a viral score in under 2 minutes.
+    Paste a TikTok link. Get a complete breakdown of what makes it go viral —
+    hook structure, scene rhythm, speech, text overlays, and a viral score in under 2 minutes.
   </p>
 
   <form class="waitlist-form" id="waitlistForm">
@@ -387,8 +346,8 @@
 <div class="section-divider"></div>
 
 <section class="cta-footer">
-  <h2>Ready to crack the code?</h2>
-  <p>Join creators who analyze viral videos with precision, not guesswork.</p>
+  <h2>Ready to crack the viral code?</h2>
+  <p>Join creators who reverse-engineer viral videos with data, not guesswork.</p>
   <form class="waitlist-form" id="waitlistForm2">
     <input type="email" placeholder="your@email.com" required>
     <button type="submit">Join Waitlist</button>
@@ -397,7 +356,7 @@
 </section>
 
 <footer>
-  ViralLens — Built by creators, for creators. Coming soon.
+  Viralscope — Built by creators, for creators. Coming soon.
 </footer>
 
 <script>
@@ -405,19 +364,15 @@
     e.preventDefault();
     const email = e.target.querySelector('input').value;
     if (!email) return;
-
-    // Store in localStorage for now
-    const list = JSON.parse(localStorage.getItem('virallens_waitlist') || '[]');
+    const list = JSON.parse(localStorage.getItem('viralscope_waitlist') || '[]');
     if (!list.includes(email)) {
       list.push(email);
-      localStorage.setItem('virallens_waitlist', JSON.stringify(list));
+      localStorage.setItem('viralscope_waitlist', JSON.stringify(list));
     }
-
     e.target.style.display = 'none';
     msgEl.style.display = 'block';
     msgEl.nextElementSibling.style.display = 'none';
   }
-
   document.getElementById('waitlistForm').addEventListener('submit', function(e) {
     handleSubmit(e, document.getElementById('formMessage'));
   });
